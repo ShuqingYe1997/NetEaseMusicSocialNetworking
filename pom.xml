@@ -8,6 +8,7 @@
     <artifactId>Music-Social-Network</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <name>social network</name>
+    <packaging>jar</packaging>
     <description>SocialNetwork based on netEaseMusic. Web project using Spring Boot and Neo4j</description>
 
     <parent>
@@ -56,6 +57,10 @@
             <groupId>org.neo4j</groupId>
             <artifactId>neo4j-ogm-bolt-driver</artifactId>
             <version>${neo4j-ogm.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
     </dependencies>
 

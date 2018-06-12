@@ -150,7 +150,7 @@ public class Parse {
                 JSONObject jo = (JSONObject) o;
                 int aid=(int)jo.get("id");
                 String artistName = (String) jo.get("name");
-                artists.add(albumName);
+                artists.add(artistName);
             }
 
             Song song = new Song(id, name, albumName,albumPic,artists);
@@ -164,30 +164,30 @@ public class Parse {
     * 通过用户名获得指定用户
     * 只在Search里用到，目前没用到Search……
     * */
-    public User getUser(String name){
-
-        JSONObject recordsObject = JSONObject.parseObject(data);
-        JSONArray userArray=(JSONArray)recordsObject.get("userprofiles");
-
-        //todo: 这里要传一个$进来，现在默认数组的第一个
-        JSONObject userObject=userArray.getJSONObject(0);
-        int userId = (int) userObject.get("userId");
-        String nickname = (String) userObject.get("nickname");
-        int gender = (int) userObject.get("gender");
-        String icon = (String) userObject.get("avatarUrl");
-        String signature = (String) userObject.get("signature");
-        int eventCount=(int)userObject.get("eventCount");
-        int followeds=(int)userObject.get("followeds");
-        int follows=(int)userObject.get("follows");
-
-        User user = new User(userId, nickname, gender, icon);
-        user.setSignature(signature);
-        user.setEventCount(eventCount);
-        user.setFolloweds(followeds);
-        user.setFollows(follows);
-
-        return user;
-    }
+//    public User getUser(String name){
+//
+//        JSONObject recordsObject = JSONObject.parseObject(data);
+//        JSONArray userArray=(JSONArray)recordsObject.get("userprofiles");
+//
+//        //todo: 这里要传一个$进来，现在默认数组的第一个
+//        JSONObject userObject=userArray.getJSONObject(0);
+//        int userId = (int) userObject.get("userId");
+//        String nickname = (String) userObject.get("nickname");
+//        int gender = (int) userObject.get("gender");
+//        String icon = (String) userObject.get("avatarUrl");
+//        String signature = (String) userObject.get("signature");
+//        int eventCount=(int)userObject.get("eventCount");
+//        int followeds=(int)userObject.get("followeds");
+//        int follows=(int)userObject.get("follows");
+//
+//        User user = new User(userId, nickname, gender, icon);
+//        user.setSignature(signature);
+//        user.setEventCount(eventCount);
+//        user.setFolloweds(followeds);
+//        user.setFollows(follows);
+//
+//        return user;
+//    }
 
 
 }

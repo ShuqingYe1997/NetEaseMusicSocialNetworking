@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" th:href="@{/img/icon.ico}">
+
+    <title>Make Friends NOW</title>
+
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link th:href="@{/css/navbar-top.css}" rel="stylesheet">
+    <script th:src="@{/js/jquery-slim.min.js}"></script>
+    <script th:src="@{/js/popper.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+    <a class="navbar-brand" href="#">Top navbar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" th:href="@{/get}">退出 <span class="sr-only">(current)</span></a>
+            </li>
+        </ul>
+        <form class="form-inline mt-2 mt-md-0">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
+</nav>
+
+<main role="main" class="container">
+
+    <div class="media">
+        <img class="mr-3" th:src="${user.icon}" alt="Generic placeholder image" style="width: 250px;height: 250px">
+        <div class="media-body">
+            <div class="jumbotron">
+                <div class="row" style="padding-left: 15px">
+                    <h1 th:text="${user.nickname}"></h1>
+                    <ion-icon name="female" th:if="${user.gender} eq 2"></ion-icon>
+                    <ion-icon name="male" th:if="${user.gender} eq 1"></ion-icon>
+                    <ion-icon name="transgender" th:if="${user.gender} eq 0"></ion-icon>
+                </div>
+                <div class="btn-group" role="group" aria-label="Basic example" th:each="tags: ${user.getHasTags()}">
+                    <button type="button" class="btn btn-secondary" th:text="${tags.getTag().title}"></button>
+                </div>
+                <hr class="my-4">
+                <p class="lead" th:text="${user.signature}"></p>
+            </div>
+        </div>
+    </div>
+
+    <hr class="my-4">
+    <p>
+        <a class="btn btn-info" data-toggle="collapse" href="#tagFriends" role="button" aria-expanded="false" aria-controls="tagFriends">
+            点击查看与我品味相同的人
+        </a>
+        <a class="btn btn-info" data-toggle="collapse" href="#skipFriends" role="button" aria-expanded="false" aria-controls="skipFriends">
+            点击查看我可能认识的人
+        </a>
+        <a class="btn btn-info" data-toggle="collapse" href="#songFriends" role="button" aria-expanded="false" aria-controls="songFriends">
+            点击查看和我听过相同歌曲的人
+        </a>
+        <a class="btn btn-warning" style="float: right" href="#" type="button" th:href="@{/return/{userId}(userId=${user.userId})}">返回️</a>
+    </p>
+
+    <div class="collapse" id="tagFriends">
+        <ul class="list-unstyled">
+            <li class="media" th:each="friend: ${tagFriends}" style="padding-top: 5px">
+                <img class="mr-3" th:each="entry : ${friend}" th:src="${entry.key.icon}" alt="Generic placeholder image" style="width: 150px; height: 150px;">
+                <div class="media-body">
+                    <div class="row" style="padding-left: 15px; padding-top: 15px">
+                        <h5 class="mt-0 mb-1" th:each="entry : ${friend}" th:text="${entry.key.nickname}" ></h5>
+                        <ion-icon name="female" th:each="entry : ${friend}" th:if="${entry.key.gender} eq 2"></ion-icon>
+                        <ion-icon name="male" th:each="entry : ${friend}" th:if="${entry.key.gender} eq 1"></ion-icon>
+                        <ion-icon name="transgender" th:each="entry : ${friend}" th:if="${entry.key.gender} eq 0"></ion-icon>
+                        <a  style="float: right;" th:each="entry : ${friend}" th:href="@{/update(userId=${user.userId},followId=${entry.key.userId})}">&nbsp;关注</a>
+                    </div>
+                    <br/>
+                    <div th:each="entry : ${friend}" >
+                        <div class="btn-group" role="group" aria-label="Basic example" th:each="followTags: ${entry.key.getHasTags()}">
+                            <button type="button" class="btn btn-secondary" th:text="${followTags.getTag().title}"></button>
+                        </div>
+                    </div>
+                    <hr class="my-2">
+                    <p th:each="entry : ${friend}" th:text="${entry.key.signature}"></p>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <div class="collapse" id="skipFriends">
+        <ul class="list-unstyled">
+            <li class="media" th:each="friend: ${skipFriends}" style="padding-top: 5px">
+                <img class="mr-3" th:src="${friend.icon}" alt="Generic placeholder image" style="width: 150px; height: 150px;">
+                <div class="media-body">
+                    <div class="row" style="padding-left: 15px; padding-top: 15px">
+                        <h5 class="mt-0 mb-1" th:text="${friend.nickname}" ></h5>
+                        <ion-icon name="female"  th:if="${friend.gender} eq 2"></ion-icon>
+                        <ion-icon name="male"  th:if="${friend.gender} eq 1"></ion-icon>
+                        <ion-icon name="transgender" th:if="${friend.gender} eq 0"></ion-icon>
+                        <a  style="float: right;"  th:href="@{/update(userId=${user.userId},followId=${friend.userId})}">&nbsp;关注</a>
+                    </div>
+                    <br/>
+                    <div class="btn-group" role="group" aria-label="Basic example" th:each="followTags: ${friend.getHasTags()}">
+                        <button type="button" class="btn btn-secondary" th:text="${followTags.getTag().title}"></button>
+                    </div>
+                    <hr class="my-2">
+                    <p th:text="${friend.signature}"></p>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <div class="collapse" id="songFriends">
+        <ul class="list-unstyled">
+            <li class="media" th:each="entry: ${songFriends.entrySet()}" style="padding-top: 5px"><!--entry is Class Map<User,String>.entry-->
+                <hr class="my-2">
+                <img class="mr-3" th:src="${entry.getKey().icon}" alt="Generic placeholder image" style="width: 150px; height: 150px;">
+                <div class="media-body">
+                    <div class="row" style="padding-left: 15px; padding-top: 15px">
+                        <h5 class="mt-0 mb-1" th:text="${entry.getKey().nickname}" ></h5>
+                        <ion-icon name="female"  th:if="${entry.getKey().gender} eq 2"></ion-icon>
+                        <ion-icon name="male"  th:if="${entry.getKey().gender} eq 1"></ion-icon>
+                        <ion-icon name="transgender" th:if="${entry.getKey().gender} eq 0"></ion-icon>
+                        <a  style="float: right;"  th:href="@{/update(userId=${user.userId},followId=${entry.getKey().userId})}">&nbsp;关注</a>
+                    </div>
+                    <br/>
+                    <div class="btn-group" role="group" aria-label="Basic example" th:each="followTags: ${entry.getKey().getHasTags()}">
+                        <button type="button" class="btn btn-secondary" th:text="${followTags.getTag().title}"></button>
+                    </div>
+                    <hr class="my-2">
+                    <p th:text="${entry.getKey().signature}"></p>
+                    <div style="padding-left: 15px" class="row">
+                        <h6>TA喜欢</h6>
+                        &nbsp;
+                        <h6 style="font-style: italic" class="mt-0 mb-1" th:text="${entry.getValue()}"></h6>
+                    </div>
+
+                   <div class="progress">
+                        <!--<div class="progress-bar bg-info" role="progressbar" th:style="'width:'+@{${friend.getScore()}}+'%;'" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>-->
+                    </div>
+
+                </div>
+            </li>
+        </ul>
+    </div>
+
+</main>
+
+<script src="https://unpkg.com/ionicons@4.1.2/dist/ionicons.js"></script>
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="../../../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>-->
+<!--服气了，thymeleaf识别不了上面的内容中的某部分导致500错误-->
+
+</body>
+</html>

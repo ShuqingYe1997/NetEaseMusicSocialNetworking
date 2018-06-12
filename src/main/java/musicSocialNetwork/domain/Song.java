@@ -80,7 +80,12 @@ public class Song {
 
     @Override
     public String toString() {
-        return name+" "+ songId +" "+album;
+        StringBuilder info=new StringBuilder();
+        int size=getArtists().size();
+        for(int i=0;i<size-1;i++){
+            info.append(Artists.get(i)+" 和 ");
+        }
+        info.append(Artists.get(size-1)+" 的 "+getName());
+        return info+"";
     }
-
 }

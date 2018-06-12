@@ -2,8 +2,7 @@ package musicSocialNetwork.domain;
 
 import org.neo4j.ogm.annotation.*;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @NodeEntity
 public class User {
@@ -112,8 +111,7 @@ public class User {
 
     @Override
     public String toString() {
-        String result = getUserId() + " " + nickname + " " + gender + " " + icon + " " + signature + "\n";
-        result += "eventCount: " + eventCount + " follows: " + follows + " followeds: " + followeds + "\n";
+        String result = nickname;
         return result;
     }
 
@@ -135,8 +133,18 @@ public class User {
         this.hasRecords.add(hasRecord);
     }
 
-    public Set<HasRecord> getHasRecords() {
-        return hasRecords;
+    public List<HasRecord> getHasRecords() {
+        List<HasRecord> sort=new ArrayList<>();
+        if(hasRecords!=null) {
+            sort = new ArrayList<>(hasRecords);
+            Collections.sort(sort, new Comparator<HasRecord>() {
+                @Override
+                public int compare(HasRecord o1, HasRecord o2) {
+                    return o2.getScore() - o1.getScore();
+                }
+            });
+        }
+        return sort;
     }
 
     public void addTag (HasTag hasTag){
