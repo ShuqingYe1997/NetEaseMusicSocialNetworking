@@ -28,7 +28,7 @@ Get Started
 More Questions
 -----------
 - How to get my user ID?<br>
-- Visit [NetEase Music](https://music.163.com/)，log into your own account and go to your personal index，and the last parameter of the website is your user ID.<br>
-* For example, the website of my personal index is https://music.163.com/#/user/home?id=2314022, and my user ID is 2314022
+&emsp;Visit [NetEase Music](https://music.163.com/)，log into your own account and go to your personal index，and the last parameter of the website is your user ID.<br>
+&emsp;For example, the website of my personal index is https://music.163.com/#/user/home?id=2314022, and my user ID is 2314022
 
 
